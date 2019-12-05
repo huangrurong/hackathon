@@ -1,0 +1,49 @@
+node{
+    timestamps{
+        deleteDir()
+        def pull_id = env.ghprbPullLink.tokenize('/')[-1];
+        currentBuild.description = "<a href=${env.ghprbPullLink}> PR #${pull_id}: ${ghprbPullTitle}</a>";
+
+        checkout scm
+
+        def hackathon_workspace_dir = pwd()
+        def prgate_unit_test = load("jobs/unit-test/PRGateUnitTest.groovy")
+        def function_test = load("jobs/function-test/FunctionTest.groovy")
+        def source_based_test = load("jobs/test-source-code/SourceBasedTest.groovy")
+
+        try{
+            // Manifest will be stashed after this stage
+            stage("Parse Pull Request"){
+                load("jobs/pr-parser/PrParser.groovy")
+            }
+
+            stage("Unit Test"){
+                // hackathon_workspace_dir is passed here because the first steps of this stage can be executed on the same node with the pipeline main process.
+                prgate_unit_test.runTest(env.stash_manifest_name, env.stash_manifest_path, hackathon_workspace_dir)
+            }
+
+            stage("Function Test"){
+                source_based_test.runTests(function_test)
+            }
+
+            // Placeholder, will be assign a new value in next steps if necessary.
+            currentBuild.result="SUCCESS"
+
+        } finally{
+            unit_test.archiveArtifactsToTarget("UnitTest")
+            source_based_test.archiveArtifacts(function_test)
+            def workWithGit = load("jobs/work-with-github/WriteBackPrStatus.groovy")
+            stage("write back"){
+                withEnv([
+                        "stash_manifest_name=${env.stash_manifest_name}",
+                        "stash_manifest_path=${env.stash_manifest_path}"
+                ]){
+                    unstash "${env.stash_manifest_name}"
+                    workWithGit.writeBackToGitHub(hackathon_workspace_dir, env.stash_manifest_path)
+
+                }
+            }
+            shareMethod.sendResult(true,true)
+        }
+    }
+}

@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+
+  wind:
+    image: hackathon/hackathon-wind:${TAG}
+    network_mode: "host"
+    privileged: true
+
+  fire:
+    image: hackathon/hackathon-fire:${TAG}
+    network_mode: "host"
+    privileged: true
+
+  water:
+    image: hackathon/hackathon-water:${TAG}
+    network_mode: "host"
+    privileged: true
+
+  earth:
+    image: hackathon/hackathon-earth:${TAG}
+    network_mode: "host"
+    privileged: true

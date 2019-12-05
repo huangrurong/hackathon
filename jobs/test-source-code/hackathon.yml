@@ -1,0 +1,13 @@
+apps:
+  - script: index.js
+    name: wind
+    cwd: /Hackathon/hackathon-wind
+  - script: index.js
+    name: fire
+    cwd: /Hackathon/hackathon-fire
+  - script: index.js
+    name: water
+    cwd: /Hackathon/hackathon-water
+  - script: index.js
+    name: earth
+    cwd: /Hackathon/hackathon-earth

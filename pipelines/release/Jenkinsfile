@@ -1,0 +1,119 @@
+node{
+    timestamps{
+        withEnv([
+            "tag_name=${env.tag_name}",
+            "branch=${env.branch}",
+            "date=current",
+            "timezone=-0500",
+            "TAG=${env.TAG}",
+            "PUBLISH=${env.PUBLISH}",
+            "TESTS=${env.TESTS}",
+            "OS_VER=${env.OS_VER}",
+            "BINTRAY_SUBJECT=${env.BINTRAY_SUBJECT}",
+            "BINTRAY_REPO=binary"])
+        {
+            // Render the job description.
+            def message = "Job Name: ${env.JOB_NAME} \n" + "Build Full URL: ${env.BUILD_URL} \n" + "Phase: STARTED \n"
+            echo "$message"
+
+            /**
+              STEP 0: Import and checkout the toolbox
+            */
+            def shareMethod = load("jobs/ShareMethod.groovy")
+            deleteDir()
+            checkout scm
+
+            try{
+
+                /**
+                  STEP 1: Create and stash manifest.
+                */
+                // If MANIFEST_FILE_URL is not defined, the value of "${env.MANIFEST_FILE_URL}" is "null"
+                // If MANIFEST_FILE_URL is defined but not assigned, the value of "${env.MANIFEST_FILE_URL}" is ""
+                if("${env.MANIFEST_FILE_URL}" == "null" || "${env.MANIFEST_FILE_URL}" == ""){
+                    stage("Create Manifest"){
+                        // The script create_manifest.groovy will upload a manifest file to bintray
+                        // and save the download link in variable : env.MANIFEST_FILE_URL
+                        load("jobs/create_manifest/create_manifest.groovy")
+                    }
+                }
+
+                def manifest_name=env.MANIFEST_FILE_URL.tokenize('/')[-1]
+                currentBuild.description = "<a href=${env.MANIFEST_FILE_URL}>${manifest_name}</a>"
+
+                shareMethod.downloadManifest(env.MANIFEST_FILE_URL, manifest_name)
+                stash name: "sprint_release_manifest", includes: "${manifest_name}"
+                env.stash_manifest_name = "sprint_release_manifest"
+                env.stash_manifest_path = "${manifest_name}"
+
+                /**
+                  STEP 2: Testing source code.
+                */
+                def repo_dir = pwd()
+                def TESTS = "${env.TESTS}"
+                def test_type = "manifest"
+                def unit_test = load("jobs/unit-test/UnitTest.groovy")
+                def function_test = load("jobs/function-test/FunctionTest.groovy")
+                def source_based_test = load("jobs/test-source-code/SourceBasedTest.groovy")
+                def docker_post_test = load("jobs/test-docker/docker_post_test.groovy")
+                try {
+                    stage("Unit Test"){
+                        // Call the function runTest to run unit test
+                        unit_test.runTest(env.stash_manifest_name, env.stash_manifest_path, repo_dir)
+                    }
+                    stage("Function Test"){
+                        // Run function test
+                        source_based_test.runTests(function_test)
+                    }
+                } catch(Exception e) {
+                    error("there are failed test cases")
+                } finally{
+                    unit_test.archiveArtifactsToTarget("UnitTest")
+                    source_based_test.archiveArtifacts(function_test)
+                }
+
+                Boolean create_tag = TAG.toBoolean()
+                Boolean publish = PUBLISH.toBoolean()
+                shareMethod.buildAndPublish(publish, create_tag, repo_dir)
+
+                /**
+                  STEP 3: Build and test release carrier.
+                */
+                // retry times for package build to avoid failing caused by network
+                int retry_times = 3
+                stage("Packages Build"){
+                    retry(retry_times){
+                        load(repo_dir + "/jobs/build_docker/build_docker.groovy")
+                    }
+                }
+
+                stage("Post Test"){
+                    // Run function test
+                    docker_post_test.runTests(function_test)
+                }
+
+                /**
+                  STEP 4: Create github tag of each repo
+                */
+                if(create_tag){
+                    stage("Create Tag"){
+                        load(repo_dir + "/jobs/release/create_tag.groovy")
+                    }
+                }
+
+                /**
+                  STEP 4: Publish release carrier.
+                */
+                if(publish){
+                    stage("Publish"){
+                        load(repo_dir + "/jobs/release/release_docker.groovy")
+                    }
+                }
+
+                currentBuild.result="SUCCESS"
+            } finally{
+                shareMethod.sendResult(true, true)
+            }
+        }
+    }
+}
