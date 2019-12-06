@@ -1,13 +1,17 @@
 apps:
-  - script: index.js
+  - script: npm
+    args: start
     name: wind
     cwd: /Hackathon/hackathon-wind
-  - script: index.js
+  - script: npm
+    args: start
     name: fire
     cwd: /Hackathon/hackathon-fire
-  - script: index.js
+  - script: npm
+    args: start
     name: water
     cwd: /Hackathon/hackathon-water
-  - script: index.js
+  - script: npm
+    args: start
     name: earth
     cwd: /Hackathon/hackathon-earth
