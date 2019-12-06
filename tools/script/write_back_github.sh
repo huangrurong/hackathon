@@ -7,7 +7,7 @@ build_status="$3"
 
 pushd $1
 if [ "${build_status}" != "SUCCESS" ]; then
-    ./tools/HWIMO-BUILD ./tools/app/post-result.py \
+    ./tools/ENV-BUILD ./tools/app/post-result.py \
     --manifest_file "${manifest_path}" \
     --jenkins_url "${JENKINS_URL}" \
     --build_url "${BUILD_URL}" \
@@ -15,7 +15,7 @@ if [ "${build_status}" != "SUCCESS" ]; then
     --ghtoken ${GITHUB_TOKEN}
 fi
 
-./tools/HWIMO-BUILD ./tools/app/commit_status_setter.py \
+./tools/ENV-BUILD ./tools/app/commit_status_setter.py \
 --manifest "${manifest_path}" \
 --build-url "${BUILD_URL}" \
 --public-jenkins-url "http://147.178.202.18/" \

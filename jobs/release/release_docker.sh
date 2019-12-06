@@ -10,10 +10,10 @@ docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASS
 while read -r LINE; do
         echo $LINE
         for repo_tag in $LINE; do
-                echo "Pushing hackathon/$repo_tag"
+                echo "Pushing mariobrothers/$repo_tag"
         docker push $repo_tag
         if [ $? != 0 ]; then
-                echo "Failed to push hackathon/$repo_tag"
+                echo "Failed to push mariobrothers/$repo_tag"
             exit 1
         fi
     done
@@ -55,12 +55,12 @@ cleanupDocker(){
   echo "Clean Up all docker images in local repo"
   clean_up_docker_image none
 
-  # clean images by order, hackathon-lib should be last one because others depends on it
-  clean_up_docker_image hackathon-wind
-  clean_up_docker_image hackathon-fire
-  clean_up_docker_image hackathon-water
-  clean_up_docker_image hackathon-earth
-  clean_up_docker_image hackathon-lib
+  # clean images by order, mariobrothers-lib should be last one because others depends on it
+  clean_up_docker_image mariobrothers-wind
+  clean_up_docker_image mariobrothers-fire
+  clean_up_docker_image mariobrothers-water
+  clean_up_docker_image mariobrothers-earth
+  clean_up_docker_image mariobrothers-lib
 }
 cleanupDocker
 

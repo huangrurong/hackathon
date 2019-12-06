@@ -34,11 +34,12 @@ doBuild() {
             tagCalculate() { ./version_calculate.sh; }
             TAG=:$(tagCalculate)
 
-            echo "Building hackathon/$repo$TAG"
+            # org name is mariobrothers
+            echo "Building mariobrothers/$repo$TAG"
             # Record all tags
-            repos_tags=$repos_tags"hackathon/"$repo$TAG" "
+            repos_tags=$repos_tags"mariobrothers/"$repo$TAG" "
 
-            docker build -t hackathon/$repo$TAG .
+            docker build -t mariobrothers/$repo$TAG .
 
         popd
     done
