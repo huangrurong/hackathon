@@ -1,12 +1,9 @@
 node{
-        try{
-            // Manifest will be stashed after this stage
-            stage("Parse Pull Request"){
-            }
-
-            stage("Unit Test"){
-            }
-
-            stage("Function Test"){
-            }
+    // Manifest will be stashed after this stage
+     stage("Parse Pull Request"){
+     }
+     stage("Unit Test"){
+     }
+     stage("Function Test"){
+     }
 }
