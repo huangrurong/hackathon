@@ -49,7 +49,7 @@ then
   fi
   echo 'done!' > $BASEDIR/environment.log
 fi
-
+cat $BASEDIR/environment.log
 source $BASEDIR/env/envbuild/bin/activate
 set -e
 
@@ -57,5 +57,6 @@ if [ -d $BASEDIR/lib ]
 then
   export PYTHONPATH="$(cd $BASEDIR/lib; pwd)"
 fi
-
+cd $BASEDIR
+ls -l
 exec "$@"
