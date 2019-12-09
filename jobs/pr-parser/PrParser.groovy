@@ -3,7 +3,7 @@ node{
     withEnv([
         "ghprbPullLink = ${env.ghprbPullLink}",
         "ghprbTargetBranch = ${env.ghprbTargetBranch}"
-    ]) {5
+    ]) {
         dir("hackathon") {
             checkout scm
         }
