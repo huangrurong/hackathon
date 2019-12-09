@@ -15,6 +15,7 @@ PROG=${0}
 
 # We need virtualenv from somewhere
 virtualenv=`which virtualenv`
+echo "${virtualenv}"
 if [ ! -x "${virtualenv}" ]; then
     echo "location of virtualenv executable is unknown"
     exit 1
@@ -29,7 +30,7 @@ fi
 
 # Normalize env_name, replace '/' with '_'
 env_name=${env_name//\//_}
-
+echo "${env_name}"
 # Our virtual environments are found within <toplevelgit>/env
 #cd "$(git rev-parse --show-toplevel)"
 export WORKON_HOME=`pwd`/env
@@ -38,6 +39,7 @@ export WORKON_HOME=`pwd`/env
 ${virtualenv} --clear env/${env_name}
 
 # activate the virtual environment
+echo ""env/${env_name}/bin/activate"
 source "env/${env_name}/bin/activate"
 
 # Use locally sourced pip configuration
