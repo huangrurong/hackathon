@@ -34,6 +34,9 @@ then
   echo -n "Creating virtual environment... " > $BASEDIR/environment.log
   set +e
   (cd $BASEDIR; . ./mkenv.sh envbuild) >> $BASEDIR/environment.log 2>&1
+  (cd $BASEDIR; ../mkenv.sh envbuild) >> $BASEDIR/environment.log 2>&1
+  source $BASEDIR/mkenv.sh envbuild
+  
   if [ $? != 0 ]
   then
     echo "found problems:"
