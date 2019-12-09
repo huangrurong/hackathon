@@ -33,9 +33,12 @@ if [ ! -d $BASEDIR/env/envbuild -o $BASEDIR/requirements.txt -nt $BASEDIR/env/en
 then
   echo -n "Creating virtual environment... " > $BASEDIR/environment.log
   set +e
-  (cd $BASEDIR; ./mkenv.sh envbuild) > $BASEDIR/environment.log 2>&1
+  pwd
+  echo "$BASEDIR"
+  ls -l
+  (cd $BASEDIR; ./mkenv.sh envbuild) > environment.log 2>&1
+  ls -l 
   if [ $? != 0 ]
-  cat environment.log
   then
     echo "found problems:"
     if [ -f $BASEDIR/environment.log ]
