@@ -41,15 +41,15 @@ then
   if [ $? != 0 ]
   then
     echo "found problems:"
-    if [ -f $BASEDIR/environment.log ]
+    if [ -f environment.log ]
     then
-      cat $BASEDIR/environment.log
+      cat environment.log
     else
       echo "No log file available"
     fi
     exit 1
   fi
-  echo 'done!' > $BASEDIR/environment.log
+  echo 'done!' > environment.log
 fi
 
 source $BASEDIR/env/envbuild/bin/activate
