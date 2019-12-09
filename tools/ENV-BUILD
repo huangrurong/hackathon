@@ -35,7 +35,7 @@ then
   set +e
   # (cd $BASEDIR; ./mkenv.sh envbuild) > $BASEDIR/environment.log 2>&1
   cd $BASEDIR; ./mkenv.sh envbuild
-  cat $BASEDIR/environment.log
+  #cat $BASEDIR/environment.log
   if [ $? != 0 ]
   then
     echo "found problems:"
