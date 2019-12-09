@@ -29,15 +29,13 @@ BASEDIR=$(dirname "$0")
 # We need to disable "set -e" here.  sourcing
 # virtualenv files causes early exits
 
-echo "${BASEDIR}"
-
 if [ ! -d $BASEDIR/env/envbuild -o $BASEDIR/requirements.txt -nt $BASEDIR/env/envbuild ]
 then
   echo -n "Creating virtual environment... " > $BASEDIR/environment.log
-  ls -l
   set +e
   (cd $BASEDIR; ./mkenv.sh envbuild) > $BASEDIR/environment.log 2>&1
   if [ $? != 0 ]
+  cat environment.log
   then
     echo "found problems:"
     if [ -f $BASEDIR/environment.log ]
