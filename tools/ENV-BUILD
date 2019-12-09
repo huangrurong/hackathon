@@ -35,7 +35,7 @@ then
   set +e
   # (cd $BASEDIR; . ./mkenv.sh envbuild) >> $BASEDIR/environment.log 2>&1
   source $BASEDIR/mkenv.sh envbuild >> $BASEDIR/environment.log
-  
+  cat $BASEDIR/environment.log
   if [ $? != 0 ]
   then
     echo "found problems:"
@@ -49,7 +49,6 @@ then
   fi
   echo 'done!' > $BASEDIR/environment.log
 fi
-cat $BASEDIR/environment.log
 source $BASEDIR/env/envbuild/bin/activate
 set -e
 
