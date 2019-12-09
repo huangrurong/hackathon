@@ -1,16 +1,13 @@
 node{
     timestamps{
         deleteDir()
-        echo "this is a test"
-        echo "${ghprbPullLink}"
-        echo "${env.ghprbPullLink}"
         def pull_id = env.ghprbPullLink.tokenize('/')[-1];
         currentBuild.description = "<a href=${env.ghprbPullLink}> PR #${pull_id}: ${ghprbPullTitle}</a>";
 
         checkout scm
 
         def hackathon_workspace_dir = pwd()
-        def prgate_unit_test = load("jobs/unit-test/PRGateUnitTest.groovy")
+        def prgate_unit_test = load("jobs/unit-test/PrGateUnitTest.groovy")
         def function_test = load("jobs/function-test/FunctionTest.groovy")
         def source_based_test = load("jobs/test-source-code/SourceBasedTest.groovy")
 
