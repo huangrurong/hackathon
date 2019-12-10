@@ -238,9 +238,7 @@ class PrParser(object):
         """
         gh = self.__gh
         latest_commit = ""
-        print "get branches"
         branches = gh.get_repo(repo).get_branches()
-        print branches
         for branch_obj in branches:
             if branch == branch_obj.name:
                 print branch
@@ -277,17 +275,15 @@ class PrParser(object):
                     manifest.update_manifest(repo_url, "", sha1, True)
                 else:
                     manifest.update_manifest(repo_url, "", sha1, False)
-            print "fill in blank commit with latest commit sha"
+  
             # fill in blank commit with latest commit sha
             for repo in manifest.repositories:
                 if 'commit-id' in repo and repo['commit-id'] == "":
                     repo_name = "/".join(repo["repository"][:-4].split("/")[3:])
-                    print repo_name
+   
                     latest_commit = self.get_latest_commit(repo_name, self.__target_branch)
                     repo["commit-id"] = latest_commit
-            print "manifest.validate_manifest()"
             manifest.validate_manifest()
-            print "manifest.dump_to_json_file(file_path)"
             manifest.dump_to_json_file(file_path)
 
         except Exception as error:
