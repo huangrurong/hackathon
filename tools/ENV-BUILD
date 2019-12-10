@@ -29,7 +29,7 @@ BASEDIR=$(dirname "$0")
 # We need to disable "set -e" here.  sourcing
 # virtualenv files causes early exits
 
-if [ ! -d +/env/envbuild -o $BASEDIR/requirements.txt -nt $BASEDIR/env/envbuild ]
+if [ ! -d $BASEDIR/env/envbuild -o $BASEDIR/requirements.txt -nt $BASEDIR/env/envbuild ]
 then
   echo -n "Creating virtual environment... " > $BASEDIR/environment.log
   set +e
