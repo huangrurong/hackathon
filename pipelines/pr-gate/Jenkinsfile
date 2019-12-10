@@ -43,6 +43,7 @@ node{
 
                 }
             }
+            def shareMethod = load("jobs/ShareMethod.groovy")
             shareMethod.sendResult(true,true)
         }
     }
