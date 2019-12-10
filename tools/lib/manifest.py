@@ -46,7 +46,6 @@ class Manifest(object):
         repo_dir = os.path.dirname(sys.path[0])
         for subdir, dirs, files in os.walk(repo_dir):
             for file in files:
-                print "file :{0}".format(file)
                 if file == manifest_sample:
                     manifest = Manifest(os.path.join(subdir, file))
                     return manifest
