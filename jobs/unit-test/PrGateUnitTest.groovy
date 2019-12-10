@@ -24,6 +24,7 @@ def setTestRepos(){
     // the test_repos=["lib", "water", "wind", "earth", "fire"]
     // For an independent PR of water
     // the test_repos=["water"]
+    sh "chmod -R 777 $hackathon_workspace_dir"
     sh '''#!/bin/bash
     pushd ''' + "$hackathon_workspace_dir" + '''
     ./tools/ENV-BUILD ./tools/app/parse_manifest.py \
