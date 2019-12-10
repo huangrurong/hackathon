@@ -10,7 +10,7 @@ def setWorkspaceDir(hackathon_workspace_dir){
 }
 
 def setUnitTest(){
-    this.unit_test = load(hackathon_workspace_dir + "/jobs/UnitTest/UnitTest.groovy")
+    this.unit_test = load(hackathon_workspace_dir + "/jobs/unit-test/UnitTest.groovy")
 }
 
 def setTestRepos(){
@@ -24,6 +24,7 @@ def setTestRepos(){
     // the test_repos=["lib", "water", "wind", "earth", "fire"]
     // For an independent PR of water
     // the test_repos=["water"]
+    sh "chmod -R 777 $hackathon_workspace_dir"
     sh '''#!/bin/bash
     pushd ''' + "$hackathon_workspace_dir" + '''
     ./tools/ENV-BUILD ./tools/app/parse_manifest.py \

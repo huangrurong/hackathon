@@ -47,7 +47,7 @@ def occupyAvailableLockedResource(String label_name, ArrayList<String> used_reso
 
 def testDocker(String repo_dir){
     def function_test = load(repo_dir + "/jobs/FunctionTest/FunctionTest.groovy")
-    def docker_post_test = load(repo_dir + "/jobs/BuildDocker/DockerPostTest.groovy
+    def docker_post_test = load(repo_dir + "/jobs/BuildDocker/DockerPostTest.groovy")
     docker_post_test.runTests(function_test)
 }
 

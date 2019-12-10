@@ -238,7 +238,6 @@ class PrParser(object):
         """
         gh = self.__gh
         latest_commit = ""
-
         branches = gh.get_repo(repo).get_branches()
         for branch_obj in branches:
             if branch == branch_obj.name:
@@ -255,13 +254,17 @@ class PrParser(object):
         """
         try:
             all_prs = self.get_all_related_prs(self.__repo, self.__merge_commit_sha, self.__pr_number)
+            print "all_prs: {0}".format(all_prs)
             under_test_prs = self.get_under_test_prs()
+            print "under_test_prs: {0}".format(under_test_prs)
             # instance of manifest template
             manifest = Manifest.instance_of_sample("manifest.json")
 
             # wrap with pr
             repo_url_list = [repo["repository"] for repo in manifest.repositories]
+            print "repo_url_list: {0}".format(repo_url_list)
             for pr in all_prs:
+                print "pr: {0}".format(pr)
                 repo, sha1, _ = pr
                 repo_url = "https://github.com/{0}.git".format(repo)
                 # uniform the repo_url case, make sure the url is completely consistent with repo in the manifest
@@ -270,14 +273,14 @@ class PrParser(object):
                     manifest.update_manifest(repo_url, "", sha1, True)
                 else:
                     manifest.update_manifest(repo_url, "", sha1, False)
-
+  
             # fill in blank commit with latest commit sha
             for repo in manifest.repositories:
                 if 'commit-id' in repo and repo['commit-id'] == "":
                     repo_name = "/".join(repo["repository"][:-4].split("/")[3:])
+   
                     latest_commit = self.get_latest_commit(repo_name, self.__target_branch)
                     repo["commit-id"] = latest_commit
-
             manifest.validate_manifest()
             manifest.dump_to_json_file(file_path)
 

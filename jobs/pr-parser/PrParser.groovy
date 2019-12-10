@@ -3,7 +3,7 @@ node{
     withEnv([
         "ghprbPullLink = ${env.ghprbPullLink}",
         "ghprbTargetBranch = ${env.ghprbTargetBranch}"
-    ]) {5
+    ]) {
         dir("hackathon") {
             checkout scm
         }
@@ -11,6 +11,7 @@ node{
             env.stash_manifest_path = "manifest"
             withCredentials([string(credentialsId: 'PULLER_GITHUB_TOKEN_POOL',
                                     variable: 'PULLER_GITHUB_TOKEN_POOL')]) {
+                sh "chmod -R 777 hackathon"
                 sh '''#!/bin/bash -ex
                 ./hackathon/tools/ENV-BUILD ./hackathon/tools/app/pr_parser.py \
                 --change-url $ghprbPullLink \
