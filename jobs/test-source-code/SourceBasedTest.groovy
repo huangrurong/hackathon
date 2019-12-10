@@ -13,7 +13,7 @@ def generateTestBranches(function_test){
         def TESTS = "${env.TESTS}"
         if(TESTS == "null" || TESTS == "" || TESTS == null){
             print "no test need to run"
-            return 
+            return test_branches
             
         }
 
