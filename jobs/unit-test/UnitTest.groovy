@@ -84,9 +84,9 @@ def archiveArtifactsToTarget(target){
     // 2. Unstash files according to the global variable: test_repos, for example: ["on-http","on-core"]
     //    The function unitTest() will stash log files after run test specified in the test_repos
     // 3. Archive the directory target
-    if(test_repos.size > 0){
+    if(test_repos.size() > 0){
         dir("$target"){
-            for(int i=0; i<test_repos.size; i++){
+            for(int i=0; i<test_repos.size(); i++){
                 try{
                     def repo_name = test_repos.get(i)
                     unstash "$repo_name"
