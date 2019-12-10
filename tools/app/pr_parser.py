@@ -268,21 +268,23 @@ class PrParser(object):
                 print "pr: {0}".format(pr)
                 repo, sha1, _ = pr
                 repo_url = "https://github.com/{0}.git".format(repo)
+                print repo_url
                 # uniform the repo_url case, make sure the url is completely consistent with repo in the manifest
                 repo_url = [url for url in repo_url_list if url.lower() == repo_url][0]
                 if repo in under_test_prs:
                     manifest.update_manifest(repo_url, "", sha1, True)
                 else:
                     manifest.update_manifest(repo_url, "", sha1, False)
-
+            print "fill in blank commit with latest commit sha"
             # fill in blank commit with latest commit sha
             for repo in manifest.repositories:
                 if 'commit-id' in repo and repo['commit-id'] == "":
                     repo_name = "/".join(repo["repository"][:-4].split("/")[3:])
                     latest_commit = self.get_latest_commit(repo_name, self.__target_branch)
                     repo["commit-id"] = latest_commit
-
+            print "manifest.validate_manifest()"
             manifest.validate_manifest()
+            print "manifest.dump_to_json_file(file_path)"
             manifest.dump_to_json_file(file_path)
 
         except Exception as error:
