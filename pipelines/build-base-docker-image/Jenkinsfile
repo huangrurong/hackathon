@@ -8,7 +8,8 @@ node{
         if(resources_name.size>0){
             node_name = resources_name[0]
         }
-        else{
+        else
+	{
             error("Failed to find resource with label " + label_name)
         }
         node(node_name){
@@ -25,7 +26,7 @@ node{
                          passwordVariable: 'DOCKERHUB_PASS',
                          usernameVariable: 'DOCKERHUB_USER')
                 ]){
-                    sh './on-build-config/jobs/BuildBaseImage/build_base_image.sh'
+                    sh './hackthon/pipelines/build-base-docker-image/Jenkinsfile'
                     archiveArtifacts 'hackathon_pipeline_docker.tar'
                 }
             }
