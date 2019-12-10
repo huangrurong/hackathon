@@ -12,3 +12,4 @@
 
 set -e
 PROG=${0}
+echo "${PROG}"
