@@ -12,7 +12,3 @@
 
 set -e
 PROG=${0}
-
-# We need virtualenv from somewhere
-virtualenv=`which virtualenv`
-echo "${virtualenv}"
