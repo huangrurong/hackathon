@@ -238,15 +238,18 @@ class PrParser(object):
         """
         gh = self.__gh
         latest_commit = ""
-
+        print "get branches"
         branches = gh.get_repo(repo).get_branches()
+        print branches
         for branch_obj in branches:
             if branch == branch_obj.name:
+                print branch
                 latest_commit = branch_obj.commit.sha
 
         if latest_commit == "":
             branch_obj = gh.get_repo(repo).get_branch("master")
             latest_commit = branch_obj.commit.sha
+            print latest_commit
         return latest_commit
 
     def wrap_manifest_file(self, file_path):
@@ -268,7 +271,6 @@ class PrParser(object):
                 print "pr: {0}".format(pr)
                 repo, sha1, _ = pr
                 repo_url = "https://github.com/{0}.git".format(repo)
-                print repo_url
                 # uniform the repo_url case, make sure the url is completely consistent with repo in the manifest
                 repo_url = [url for url in repo_url_list if url.lower() == repo_url][0]
                 if repo in under_test_prs:
@@ -280,6 +282,7 @@ class PrParser(object):
             for repo in manifest.repositories:
                 if 'commit-id' in repo and repo['commit-id'] == "":
                     repo_name = "/".join(repo["repository"][:-4].split("/")[3:])
+                    print repo_name
                     latest_commit = self.get_latest_commit(repo_name, self.__target_branch)
                     repo["commit-id"] = latest_commit
             print "manifest.validate_manifest()"
