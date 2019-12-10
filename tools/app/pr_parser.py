@@ -241,13 +241,11 @@ class PrParser(object):
         branches = gh.get_repo(repo).get_branches()
         for branch_obj in branches:
             if branch == branch_obj.name:
-                print branch
                 latest_commit = branch_obj.commit.sha
 
         if latest_commit == "":
             branch_obj = gh.get_repo(repo).get_branch("master")
             latest_commit = branch_obj.commit.sha
-            print latest_commit
         return latest_commit
 
     def wrap_manifest_file(self, file_path):
