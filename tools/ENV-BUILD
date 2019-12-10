@@ -29,13 +29,11 @@ BASEDIR=$(dirname "$0")
 # We need to disable "set -e" here.  sourcing
 # virtualenv files causes early exits
 
-if [ ! -d $BASEDIR/env/envbuild -o $BASEDIR/requirements.txt -nt $BASEDIR/env/envbuild ]
+if [ ! -d +/env/envbuild -o $BASEDIR/requirements.txt -nt $BASEDIR/env/envbuild ]
 then
   echo -n "Creating virtual environment... " > $BASEDIR/environment.log
   set +e
-  # (cd $BASEDIR; . ./mkenv.sh envbuild) >> $BASEDIR/environment.log 2>&1
-  source $BASEDIR/mkenv.sh envbuild >> $BASEDIR/environment.log
-  cat $BASEDIR/environment.log
+  (cd $BASEDIR; ./mkenv.sh envbuild) > $BASEDIR/environment.log 2>&1
   if [ $? != 0 ]
   then
     echo "found problems:"
@@ -49,6 +47,7 @@ then
   fi
   echo 'done!' > $BASEDIR/environment.log
 fi
+
 source $BASEDIR/env/envbuild/bin/activate
 set -e
 
@@ -56,6 +55,5 @@ if [ -d $BASEDIR/lib ]
 then
   export PYTHONPATH="$(cd $BASEDIR/lib; pwd)"
 fi
-cd $BASEDIR
-ls -l
+
 exec "$@"
