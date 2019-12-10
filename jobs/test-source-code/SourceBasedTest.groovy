@@ -76,7 +76,7 @@ def generateTestBranches(function_test){
 
 def runTests(function_test){
     def test_branches = generateTestBranches(function_test)
-    if(!(test_branches == null){
+    if(!(test_branches == null)){
         try{
             parallel test_branches
         } finally{
