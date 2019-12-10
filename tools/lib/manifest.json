@@ -26,6 +26,11 @@
             "branch": "",
             "commit-id": "",
             "repository": "https://github.com/changev/hackathon-water.git"
+        },
+        {
+            "branch": "",
+            "commit-id": "",
+            "repository": "https://github.com/changev/hackathon-function-test.git"
         }
     ]
 }
