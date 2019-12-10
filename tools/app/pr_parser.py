@@ -255,13 +255,17 @@ class PrParser(object):
         """
         try:
             all_prs = self.get_all_related_prs(self.__repo, self.__merge_commit_sha, self.__pr_number)
+            print "all_prs: {0}".format(all_prs)
             under_test_prs = self.get_under_test_prs()
+            print "under_test_prs: {0}".format(under_test_prs)
             # instance of manifest template
             manifest = Manifest.instance_of_sample("manifest.json")
 
             # wrap with pr
             repo_url_list = [repo["repository"] for repo in manifest.repositories]
+            print "repo_url_list: {0}".format(repo_url_list)
             for pr in all_prs:
+                print "pr: {0}".format(pr)
                 repo, sha1, _ = pr
                 repo_url = "https://github.com/{0}.git".format(repo)
                 # uniform the repo_url case, make sure the url is completely consistent with repo in the manifest
