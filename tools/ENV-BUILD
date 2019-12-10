@@ -45,7 +45,7 @@ then
     fi
     exit 1
   fi
-  echo 'done!' > $BASEDIR/environment.log
+  echo 'done!' >> $BASEDIR/environment.log
 fi
 cat $BASEDIR/environment.log
 source $BASEDIR/env/envbuild/bin/activate
