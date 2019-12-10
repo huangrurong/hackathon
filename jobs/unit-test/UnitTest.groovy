@@ -105,7 +105,7 @@ def runTest(String manifest_name, String manifest_path, String repo_dir){
     def used_resources=[]
     def test_branches = [:]
     // test_repos is a global variable
-    for(int i=0; i<test_repos.size; i++){
+    for(int i=0; i<test_repos.size(); i++){
         def repo_name = test_repos.get(i)
         test_branches["${repo_name}"] = {
             unitTest(repo_name, used_resources)
