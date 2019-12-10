@@ -43,12 +43,17 @@ source "env/${env_name}/bin/activate"
 # Use locally sourced pip configuration
 export PIP_CONFIG_FILE=pip.conf
 
+echo "requirements.txt"
+cat requirements.txt
+
 # Install all required packages
 pip install -r requirements.txt
 
 # Create local requirements (for example, pylint)
 if [ -f requirements_local.txt ]
 then
+  echo "requirements_local.txt"
+  cat requirements_local.txt
   pip install -r requirements_local.txt
 fi
 
