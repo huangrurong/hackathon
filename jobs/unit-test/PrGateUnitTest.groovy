@@ -10,7 +10,7 @@ def setWorkspaceDir(hackathon_workspace_dir){
 }
 
 def setUnitTest(){
-    this.unit_test = load(hackathon_workspace_dir + "/jobs/UnitTest/UnitTest.groovy")
+    this.unit_test = load(hackathon_workspace_dir + "/jobs/unit-test/UnitTest.groovy")
 }
 
 def setTestRepos(){
