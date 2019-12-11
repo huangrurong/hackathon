@@ -2,14 +2,14 @@ node{
     deleteDir()
     checkout scm
     def shareMethod = load("jobs/ShareMethod.groovy")
-    def label_name = "unittest"
-    lock(label:label_name,quantity:1){
+    def label_name = "slave_build_node01"
+    lock(label:label_name, quantity:1){
         resources_name = shareMethod.getLockedResourceName(label_name)
-        if(resources_name.size>0){
+        if(resources_name.size() > 0){
             node_name = resources_name[0]
         }
         else
-	{
+	    {
             error("Failed to find resource with label " + label_name)
         }
         node(node_name){
