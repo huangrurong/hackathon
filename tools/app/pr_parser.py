@@ -111,7 +111,7 @@ class PrParser(object):
             if 'ignore' in pr_words[position+1]:
                 related_prs = None
                 print "INFO: \"Jenkins: ignore\" in repo: {0} pr_number: {1}".format(base_repo, base_pr_number)
-                continue
+                break
 
             #find "depend"
             disp = 2
