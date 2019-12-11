@@ -76,10 +76,10 @@ def sendResult(boolean sendJenkinsBuildResults, boolean sendTestResults){
             if ("${currentBuild.result}" != "SUCCESS"){
                 currentBuild.result = "FAILURE"
             }
-            step([$class: 'VTestResultsAnalyzerStep', sendJenkinsBuildResults: sendJenkinsBuildResults, sendTestResults: sendTestResults])
+            // step([$class: 'VTestResultsAnalyzerStep', sendJenkinsBuildResults: sendJenkinsBuildResults, sendTestResults: sendTestResults])
             def message = "Job Name: ${env.JOB_NAME} \n" + "Build Full URL: ${env.BUILD_URL} \n" + "Status: " + currentBuild.result + "\n"
             echo "$message"
-            slackSend "$message"
+            // slackSend "$message"
         } catch(error){
             echo "Caught: ${error}"
         }
