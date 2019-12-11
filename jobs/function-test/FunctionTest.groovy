@@ -2,8 +2,8 @@ import groovy.transform.Field;
 
 // The default test config: ALL_TESTS (a global variable)
 @Field def ALL_TESTS = [:]
-ALL_TESTS["SMOKE_TEST"]=["TEST_GROUP":"smoke","label":"smoke_test"]
-ALL_TESTS["PRESSURE_TEST"]=["TEST_GROUP":"pressure","label":"pressure_test"]
+ALL_TESTS["SMOKE_TEST"]=["TEST_GROUP":"smoke","label":"slave01"]
+ALL_TESTS["PRESSURE_TEST"]=["TEST_GROUP":"pressure","label":"slave02"]
 
 @Field ArrayList<String> used_resources = []
 
