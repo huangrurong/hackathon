@@ -100,7 +100,7 @@ class PrParser(object):
 
             #Checks to make sure the pr_words are long enough to parse.
             #Needs to be at least length of 3 ("Jenkins ignore/depend PR")
-            if ((position+2) >= len(pr_words)) :
+            if ((position+2) > len(pr_words)) :
                 continue
 
             #analyse dependency relationship, "depend" or "ignore"
@@ -111,7 +111,7 @@ class PrParser(object):
             if 'ignore' in pr_words[position+1]:
                 related_prs = None
                 print "INFO: \"Jenkins: ignore\" in repo: {0} pr_number: {1}".format(base_repo, base_pr_number)
-                break
+                continue
 
             #find "depend"
             disp = 2
