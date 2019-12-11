@@ -23,12 +23,10 @@ node{
                                      passwordVariable: 'SUDO_PASSWORD',
                                      usernameVariable: 'SUDO_USER'),
                     usernamePassword(credentialsId: 'HACKTHON_CI_DOCKER_HUB',
-                         passwordVariable: 'DOCKERHUB_PASS',
+                         passwordVariable: 'DOCKERHUB_PASSWD',
                          usernameVariable: 'DOCKERHUB_USER')
                 ]){
-                    sh '''#!/bin/bash -x
-                    ./hackathon/pipelines/build-base-docker-image/build_base_image.sh
-                    '''
+                    sh './hackathon/pipelines/build-base-docker-image/build_base_image.sh'
                     archiveArtifacts 'hackathon_pipeline_docker.tar'
                 }
             }
