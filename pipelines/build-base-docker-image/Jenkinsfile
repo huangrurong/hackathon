@@ -14,19 +14,21 @@ node{
         }
         node(node_name){
             deleteDir()
-            dir("on-build-config"){
+            dir("hackathon"){
                 checkout scm
             }
             stage("build base image"){
                 withCredentials([
-                    usernamePassword(credentialsId: 'ff7ab8d2-e678-41ef-a46b-dd0e780030e1',
+                    usernamePassword(credentialsId: 'JENKINS_SUDO_USER',
                                      passwordVariable: 'SUDO_PASSWORD',
                                      usernameVariable: 'SUDO_USER'),
-                    usernamePassword(credentialsId: 'hackathon-ci-docker-hub',
+                    usernamePassword(credentialsId: 'HACKTHON_CI_DOCKER_HUB',
                          passwordVariable: 'DOCKERHUB_PASS',
                          usernameVariable: 'DOCKERHUB_USER')
                 ]){
-                    sh './hackthon/pipelines/build-base-docker-image/Jenkinsfile'
+                    sh '''#!/bin/bash -x
+                    ./hackathon/pipelines/build-base-docker-image/build_base_image.sh
+                    '''
                     archiveArtifacts 'hackathon_pipeline_docker.tar'
                 }
             }
