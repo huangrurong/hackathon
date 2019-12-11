@@ -45,7 +45,7 @@ def unitTest(repo_name, used_resources){
                                  passwordVariable: 'SUDO_PASSWORD',
                                  usernameVariable: 'SUDO_USER')
                          ]){
-                             sh "./build-config/jobs/UnitTest/unit_test.sh ${repo_name}"
+                             sh "./build-config/jobs/unit-test/unit_test.sh ${repo_name}"
                          }
                     } finally{
                         // stash logs with the repo name which is the argument of the function ,for example: on-http
@@ -56,7 +56,7 @@ def unitTest(repo_name, used_resources){
                         junit 'xunit-reports/'+"${repo_name}.xml"
     
                         sh '''
-                        ./build-config/build-release-tools/application/parse_test_results.py \
+                        ./build-config/tools/app/parse_test_results.py \
                         --test-result-file xunit-reports/'''+"${repo_name}"+'''.xml  \
                         --parameters-file downstream_file
                         '''
