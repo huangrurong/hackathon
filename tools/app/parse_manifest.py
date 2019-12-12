@@ -38,7 +38,7 @@ def get_repositories_under_test(manifest_file):
     repos_under_test = []
     for repo in manifest.repositories:
         if "under-test" in repo:
-            if repos["under-test"] is True:
+            if repo["under-test"] is True:
                 repo_name = common.strip_suffix(os.path.basename(repo["repository"]), ".git")
                 repos_under_test.append(repo_name)
     return repos_under_test
