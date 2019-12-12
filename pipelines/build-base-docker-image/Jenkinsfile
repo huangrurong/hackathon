@@ -2,7 +2,7 @@ node{
     deleteDir()
     checkout scm
     def shareMethod = load("jobs/ShareMethod.groovy")
-    def label_name = "slave_build_node01"
+    def label_name = "TEST"
     lock(label:label_name, quantity:1){
         resources_name = shareMethod.getLockedResourceName(label_name)
         if(resources_name.size() > 0){
@@ -33,4 +33,3 @@ node{
         }
     }
 }
-
