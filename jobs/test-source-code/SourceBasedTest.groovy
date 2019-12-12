@@ -25,7 +25,7 @@ def generateTestBranches(function_test){
             test_branches["manifest $test_name"] = {
                 String node_name = ""
                 try{
-                    lock(label:label_name,quantity:1){
+                    lock(label: label_name,quantity:1){
                         // Occupy an avaliable resource which contains the label
                         node_name = shareMethod.occupyAvailableLockedResource(label_name, used_resources)
                         node(node_name){
@@ -37,10 +37,9 @@ def generateTestBranches(function_test){
                             {
                                 withCredentials([
 
-                                    usernamePassword(credentialsId: 'ff7ab8d2-e678-41ef-a46b-dd0e780030e1',
-                                                         passwordVariable: 'SUDO_PASSWORD',
-                                                         usernameVariable: 'SUDO_USER')
-                                ]) {
+                                    withCredentials([string(credentialsId: 'PULLER_GITHUB_TOKEN_POOL',
+                                                         variable: 'PULLER_GITHUB_TOKEN_POOL')])
+                                    {
                                     deleteDir()
                                     dir("hackathon"){
                                         checkout scm
@@ -53,7 +52,7 @@ def generateTestBranches(function_test){
                                     sh './hackathon/jobs/function-test/prepare_common.sh'
 
                                     step ([$class: 'CopyArtifact',
-                                           projectName: 'Docker_Image_Build',
+                                           projectName: 'build-base-docker-image',
                                            target: "$WORKSPACE"]);
                                     retry(3){
                                         // This scipts can be separated into manifest_src_prepare and common_prepare
