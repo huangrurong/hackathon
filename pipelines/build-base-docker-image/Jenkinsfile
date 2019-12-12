@@ -2,14 +2,14 @@ node{
     deleteDir()
     checkout scm
     def shareMethod = load("jobs/ShareMethod.groovy")
-    def label_name = "TEST"
+    def label_name = "${NODE_LABEL}"
     lock(label:label_name, quantity:1){
         resources_name = shareMethod.getLockedResourceName(label_name)
         if(resources_name.size() > 0){
             node_name = resources_name[0]
         }
         else
-	    {
+	        {
             error("Failed to find resource with label " + label_name)
         }
         node(node_name){
@@ -23,8 +23,8 @@ node{
                                      passwordVariable: 'SUDO_PASSWORD',
                                      usernameVariable: 'SUDO_USER'),
                     usernamePassword(credentialsId: 'HACKTHON_CI_DOCKER_HUB',
-                         passwordVariable: 'DOCKERHUB_PASSWD',
-                         usernameVariable: 'DOCKERHUB_USER')
+                                     passwordVariable: 'DOCKERHUB_PASSWD',
+                                     usernameVariable: 'DOCKERHUB_USER')
                 ]){
                     sh './hackathon/pipelines/build-base-docker-image/build_base_image.sh'
                     archiveArtifacts 'hackathon_pipeline_docker.tar'
