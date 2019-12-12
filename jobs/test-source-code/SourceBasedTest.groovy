@@ -13,7 +13,7 @@ def generateTestBranches(function_test){
         def TESTS = "${env.TESTS}"
         if(TESTS == "null" || TESTS == "" || TESTS == null){
             print "no test need to run"
-            return 
+            return null
             
         }
 
@@ -76,7 +76,7 @@ def generateTestBranches(function_test){
 
 def runTests(function_test){
     def test_branches = generateTestBranches(function_test)
-    if(test_branches.size() > 0){
+    if(!(test_branches == null)){
         try{
             parallel test_branches
         } finally{

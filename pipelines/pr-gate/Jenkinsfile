@@ -7,7 +7,7 @@ node{
         checkout scm
 
         def hackathon_workspace_dir = pwd()
-        def prgate_unit_test = load("jobs/unit-test/PRGateUnitTest.groovy")
+        def prgate_unit_test = load("jobs/unit-test/PrGateUnitTest.groovy")
         def function_test = load("jobs/function-test/FunctionTest.groovy")
         def source_based_test = load("jobs/test-source-code/SourceBasedTest.groovy")
 
@@ -43,6 +43,7 @@ node{
 
                 }
             }
+            def shareMethod = load("jobs/ShareMethod.groovy")
             shareMethod.sendResult(true,true)
         }
     }

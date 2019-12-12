@@ -6,7 +6,7 @@ import groovy.transform.Field;
 String stash_manifest_name
 String stash_manifest_path
 String repo_dir
-@Field label_name = "unittest"
+@Field label_name = "TEST"
 @Field def test_repos = ["hackathon-lib", "hackathon-water", "hackathon-fire", "hackathon-earth", "hackathon-wind"]
 def setManifest(String manifest_name, String manifest_path){
     this.stash_manifest_name = manifest_name
@@ -40,12 +40,10 @@ def unitTest(repo_name, used_resources){
                 env.MANIFEST_FILE_PATH = "$stash_manifest_path"
                 timeout(30){
                     try{
-                        withCredentials([
-                             usernamePassword(credentialsId: 'ff7ab8d2-e678-41ef-a46b-dd0e780030e1',
-                                 passwordVariable: 'SUDO_PASSWORD',
-                                 usernameVariable: 'SUDO_USER')
-                         ]){
-                             sh "./build-config/jobs/UnitTest/unit_test.sh ${repo_name}"
+                       withCredentials([string(credentialsId: 'PULLER_GITHUB_TOKEN_POOL',
+                                    variable: 'PULLER_GITHUB_TOKEN_POOL')]){
+                             sh "chmod -R 777 build-config"
+                             sh "./build-config/jobs/unit-test/unit_test.sh ${repo_name}"
                          }
                     } finally{
                         // stash logs with the repo name which is the argument of the function ,for example: on-http
@@ -56,7 +54,7 @@ def unitTest(repo_name, used_resources){
                         junit 'xunit-reports/'+"${repo_name}.xml"
     
                         sh '''
-                        ./build-config/build-release-tools/application/parse_test_results.py \
+                        ./build-config/tools/app/parse_test_results.py \
                         --test-result-file xunit-reports/'''+"${repo_name}"+'''.xml  \
                         --parameters-file downstream_file
                         '''
@@ -84,9 +82,9 @@ def archiveArtifactsToTarget(target){
     // 2. Unstash files according to the global variable: test_repos, for example: ["on-http","on-core"]
     //    The function unitTest() will stash log files after run test specified in the test_repos
     // 3. Archive the directory target
-    if(test_repos.size > 0){
+    if(test_repos.size() > 0){
         dir("$target"){
-            for(int i=0; i<test_repos.size; i++){
+            for(int i=0; i<test_repos.size(); i++){
                 try{
                     def repo_name = test_repos.get(i)
                     unstash "$repo_name"
@@ -105,7 +103,7 @@ def runTest(String manifest_name, String manifest_path, String repo_dir){
     def used_resources=[]
     def test_branches = [:]
     // test_repos is a global variable
-    for(int i=0; i<test_repos.size; i++){
+    for(int i=0; i<test_repos.size(); i++){
         def repo_name = test_repos.get(i)
         test_branches["${repo_name}"] = {
             unitTest(repo_name, used_resources)

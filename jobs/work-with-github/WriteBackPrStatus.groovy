@@ -16,7 +16,7 @@ def writeBackToGitHub(String library_dir, String manifest_path){
                 variable: 'GITHUB_TOKEN')]) {
             sh """#!/bin/bash -ex
             pushd ${library_dir}
-            ./jobs/write_back_github/write_back_github.sh ${library_dir} ${manifest_path} ${currentBuild.result}
+            ./tools/script/write_back_github.sh ${library_dir} ${manifest_path} ${currentBuild.result}
             popd
             """
         }

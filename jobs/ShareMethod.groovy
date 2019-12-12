@@ -35,7 +35,7 @@ def occupyAvailableLockedResource(String label_name, ArrayList<String> used_reso
      // The locked resources whose label contains the parameter label_name
     resources = getLockedResourceName(label_name)
     def available_resources = resources - used_resources
-    if(available_resources.size > 0){
+    if(available_resources.size() > 0){
         used_resources.add(available_resources[0])
         String resource_name = available_resources[0]
         return resource_name
@@ -47,7 +47,7 @@ def occupyAvailableLockedResource(String label_name, ArrayList<String> used_reso
 
 def testDocker(String repo_dir){
     def function_test = load(repo_dir + "/jobs/FunctionTest/FunctionTest.groovy")
-    def docker_post_test = load(repo_dir + "/jobs/BuildDocker/DockerPostTest.groovy
+    def docker_post_test = load(repo_dir + "/jobs/BuildDocker/DockerPostTest.groovy")
     docker_post_test.runTests(function_test)
 }
 
@@ -76,10 +76,10 @@ def sendResult(boolean sendJenkinsBuildResults, boolean sendTestResults){
             if ("${currentBuild.result}" != "SUCCESS"){
                 currentBuild.result = "FAILURE"
             }
-            step([$class: 'VTestResultsAnalyzerStep', sendJenkinsBuildResults: sendJenkinsBuildResults, sendTestResults: sendTestResults])
+            // step([$class: 'VTestResultsAnalyzerStep', sendJenkinsBuildResults: sendJenkinsBuildResults, sendTestResults: sendTestResults])
             def message = "Job Name: ${env.JOB_NAME} \n" + "Build Full URL: ${env.BUILD_URL} \n" + "Status: " + currentBuild.result + "\n"
             echo "$message"
-            slackSend "$message"
+            // slackSend "$message"
         } catch(error){
             echo "Caught: ${error}"
         }

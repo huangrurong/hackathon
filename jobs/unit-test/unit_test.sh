@@ -3,7 +3,7 @@
 prepare_deps(){
     pushd ${WORKSPACE}
     mkdir -p xunit-reports
-    ./build-config/build-release-tools/ENV-BUILD ./build-config/build-release-tools/app/reprove.py \
+    ./build-config/tools/ENV-BUILD ./build-config/tools/app/reprove.py \
     --manifest ${MANIFEST_FILE_PATH} \
     --builddir ${WORKSPACE}/build-deps \
     --jobs 8 \

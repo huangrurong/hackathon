@@ -1,0 +1,42 @@
+{
+    "build-name": "develop",
+    "build-requirements": "win10",
+    "repositories": [
+        {
+            "branch": "",
+            "commit-id": "",
+            "under-test":"",
+            "repository": "https://github.com/changev/hackathon.git"
+        },
+        {
+            "branch": "", 
+            "commit-id": "",
+            "under-test":"",
+            "repository": "https://github.com/changev/hackathon-wind.git"
+        }, 
+        {
+            "branch": "", 
+            "commit-id": "",
+            "under-test":"",
+            "repository": "https://github.com/changev/hackathon-fire.git"
+        },
+        {
+            "branch": "", 
+            "commit-id": "",
+            "under-test":"",
+            "repository": "https://github.com/changev/hackathon-earth.git"
+        },
+        {
+            "branch": "",
+            "commit-id": "",
+            "under-test":"",
+            "repository": "https://github.com/changev/hackathon-water.git"
+        },
+        {
+            "branch": "",
+            "commit-id": "",
+            "under-test":"",
+            "repository": "https://github.com/changev/hackathon-function-test.git"
+        }
+    ]
+}
