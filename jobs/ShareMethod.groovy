@@ -35,7 +35,7 @@ def occupyAvailableLockedResource(String label_name, ArrayList<String> used_reso
      // The locked resources whose label contains the parameter label_name
     resources = getLockedResourceName(label_name)
     def available_resources = resources - used_resources
-    if(available_resources.size > 0){
+    if(available_resources.size() > 0){
         used_resources.add(available_resources[0])
         String resource_name = available_resources[0]
         return resource_name
