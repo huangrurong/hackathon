@@ -6,7 +6,7 @@ import groovy.transform.Field;
 String stash_manifest_name
 String stash_manifest_path
 String repo_dir
-@Field label_name = "slave01"
+@Field label_name = "TEST"
 @Field def test_repos = ["hackathon-lib", "hackathon-water", "hackathon-fire", "hackathon-earth", "hackathon-wind"]
 def setManifest(String manifest_name, String manifest_path){
     this.stash_manifest_name = manifest_name
