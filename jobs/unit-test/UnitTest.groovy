@@ -40,11 +40,9 @@ def unitTest(repo_name, used_resources){
                 env.MANIFEST_FILE_PATH = "$stash_manifest_path"
                 timeout(30){
                     try{
-                        withCredentials([
-                             usernamePassword(credentialsId: 'ff7ab8d2-e678-41ef-a46b-dd0e780030e1',
-                                 passwordVariable: 'SUDO_PASSWORD',
-                                 usernameVariable: 'SUDO_USER')
-                         ]){
+                       withCredentials([string(credentialsId: 'PULLER_GITHUB_TOKEN_POOL',
+                                    variable: 'PULLER_GITHUB_TOKEN_POOL')]){
+                             sh "chmod -R 777 build-config"
                              sh "./build-config/jobs/unit-test/unit_test.sh ${repo_name}"
                          }
                     } finally{
