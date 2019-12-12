@@ -2,8 +2,8 @@ import groovy.transform.Field;
 
 // The default test config: ALL_TESTS (a global variable)
 @Field def ALL_TESTS = [:]
-ALL_TESTS["SMOKE_TEST"]=["TEST_GROUP":"smoke","label":"SMOKE_TEST"]
-ALL_TESTS["PRESSURE_TEST"]=["TEST_GROUP":"pressure","label":"PRESSURE_TEST"]
+ALL_TESTS["SMOKE_TEST"]=["TEST_GROUP":"smoke","label":"TEST"]
+ALL_TESTS["PRESSURE_TEST"]=["TEST_GROUP":"pressure","label":"TEST"]
 
 @Field ArrayList<String> used_resources = []
 
@@ -21,11 +21,9 @@ def functionTest(String test_name, String test_type, String TEST_GROUP){
         "KEEP_FAILURE_ENV=${env.KEEP_FAILURE_ENV}",
         "KEEP_MINUTES=${env.KEEP_MINUTES}"])
     {
-        withCredentials([
-            usernamePassword(credentialsId: 'ff7ab8d2-e678-41ef-a46b-dd0e780030e1',
-                             passwordVariable: 'SUDO_PASSWORD',
-                             usernameVariable: 'SUDO_USER'),
-        ]) {
+        withCredentials([string(credentialsId: 'PULLER_GITHUB_TOKEN_POOL',
+                        variable: 'PULLER_GITHUB_TOKEN_POOL')])
+        {
             try{
                 timeout(90){
                     // run test script
@@ -78,7 +76,7 @@ def functionTest(String test_name, String test_type, String TEST_GROUP){
                 }finally{
                     // Clean up test stack
                     sh '''#!/bin/bash -x
-                    ./hackathon/jobs/FunctionTest/cleanup.sh
+                    ./hackathon/jobs/function-test/cleanup.sh
                     '''
                     // The test_name is an argument of the method,
                     // It comes from the member variable: TESTS, for example: PRESSURE_TEST, PRESSURE_TEST.
