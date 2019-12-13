@@ -35,9 +35,7 @@ def generateTestBranches(function_test){
                                 "stash_manifest_path=${env.stash_manifest_path}",
                                 "TEST_TYPE=${TEST_TYPE}"])
                             {
-                                withCredentials([
-
-                                    withCredentials([string(credentialsId: 'PULLER_GITHUB_TOKEN_POOL',
+                                withCredentials([string(credentialsId: 'PULLER_GITHUB_TOKEN_POOL',
                                                          variable: 'PULLER_GITHUB_TOKEN_POOL')])
                                     {
                                     deleteDir()
