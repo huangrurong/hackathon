@@ -19,8 +19,8 @@ unit_test(){
     set +e
     # every repo must provide a unit_test.sh script
     # it's report will be saved into ./test/repo_name.xml
-    chmod 777 unit_test.sh
-    ./unit_test.sh
+    bash init.sh
+    bash unit_test.sh
     set -e
 }
 
