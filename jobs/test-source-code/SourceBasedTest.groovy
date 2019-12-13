@@ -54,7 +54,7 @@ def generateTestBranches(function_test){
                                            target: "$WORKSPACE"]);
                                     retry(3){
                                         // This scipts can be separated into manifest_src_prepare and common_prepare
-                                        sh './hackathon/jobs/function-test/prepare_src_test.sh'
+                                        sh './hackathon/jobs/test-source-code/prepare_src_test.sh'
                                     }
 
                                     function_test.functionTest(test_name, TEST_TYPE, test_group)
