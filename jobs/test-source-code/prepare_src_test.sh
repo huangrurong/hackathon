@@ -30,6 +30,7 @@ preparePackages() {
     local pid_arr=()
     local cnt=0
     #### NPM Install Parallel ######
+    chmod 777 init.sh
     for i in ${REPOS[@]}; do
         pushd ${WORKSPACE}/build-deps/${i}
         echo "[${i}]: running :  init.sh"
