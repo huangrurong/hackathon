@@ -17,6 +17,7 @@ MANIFEST_FILE="${MANIFEST_FILE}"
 
 preparePackages() {
     pushd ${WORKSPACE}
+    chmod -R 777 hackathon
     ./hackathon/tools/ENV-BUILD ./hackathon/tools/app/reprove.py \
     --manifest ${MANIFEST_FILE} \
     --builddir ${WORKSPACE}/build-deps \
