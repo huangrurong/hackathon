@@ -30,12 +30,11 @@ preparePackages() {
     local pid_arr=()
     local cnt=0
     #### NPM Install Parallel ######
-    chmod 777 init.sh
     for i in ${REPOS[@]}; do
         pushd ${WORKSPACE}/build-deps/${i}
         echo "[${i}]: running :  init.sh"
         ls -l
-        ./init.sh &
+        bash init.sh &
         # run in background, save its PID into pid_array
         pid_arr[$cnt]=$!
         cnt=$(( $cnt + 1 ))
